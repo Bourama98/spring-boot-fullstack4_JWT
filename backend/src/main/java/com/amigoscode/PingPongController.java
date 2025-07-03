@@ -10,6 +10,6 @@ public class PingPongController {
 
     @GetMapping("/ping")
     private PingPong getPingPong() {
-        return new PingPong("pong: Ping Mangara Bourama499ff44");
+        return new PingPong("pong: Ping Mangara Bourama07032025");
     }
 }
