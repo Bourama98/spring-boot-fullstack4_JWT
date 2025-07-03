@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.amigoscode.customer.CustomerJDBCDataAccessServiceTest
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.195 s -- in com.amigoscode.customer.CustomerJDBCDataAccessServiceTest

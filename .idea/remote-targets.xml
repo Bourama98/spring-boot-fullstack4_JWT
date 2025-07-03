@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="amigoscode-api" type="docker-compose" uuid="0ca041ae-324c-4096-8d84-82c33874d78b">
+        <config>
+          <option name="targetPlatform">
+            <TargetPlatform />
+          </option>
+          <option name="configurationFiles">
+            <list>
+              <option value="C:\Users\Development_PC_main\OneDrive\Coding Exercise\Amigoscode\PROFESSIONAL Full Stack Developer\spring-boot.example - v2-DevOps-GIthub\spring-boot.example\docker-compose.yml" />
+            </list>
+          </option>
+          <option name="envs">
+            <map>
+              <entry key="DOCKER_PASSWORD" value="Bothell2023!" />
+              <entry key="DOCKER_USERNAME" value="mangara2023" />
+            </map>
+          </option>
+          <option name="serviceName" value="amigoscode-api" />
+        </config>
+        <ContributedStateBase type="MavenRuntime">
+          <config />
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
