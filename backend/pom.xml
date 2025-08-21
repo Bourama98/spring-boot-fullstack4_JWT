@@ -216,6 +216,7 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.6</version>
                 <configuration>
+                    <containerizeMode>packaged</containerizeMode>
                     <from>
                         <image>eclipse-temurin:24</image>
                         <platforms>
