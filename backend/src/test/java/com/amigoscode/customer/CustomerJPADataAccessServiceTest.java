@@ -15,13 +15,15 @@ class CustomerJPADataAccessServiceTest extends AbstractTestContainers {
 
     private CustomerJPADataAccessService underTest;
     private AutoCloseable autoCloseable;
-    @Mock private CustomerRepository customerRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
-       autoCloseable = MockitoAnnotations.openMocks(this);
+        autoCloseable = MockitoAnnotations.openMocks(this);
         underTest = new CustomerJPADataAccessService(customerRepository);
     }
+
     @AfterEach
     void tearDown() throws Exception {
         autoCloseable.close();
@@ -44,7 +46,7 @@ class CustomerJPADataAccessServiceTest extends AbstractTestContainers {
         int id = 1;
 
         // When
-       underTest.selectCustomerById(id);
+        underTest.selectCustomerById(id);
         // Then
         verify(customerRepository).findById(id);
     }
@@ -57,7 +59,7 @@ class CustomerJPADataAccessServiceTest extends AbstractTestContainers {
         Customer actual = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         // When
         underTest.insertCustomer(actual);
@@ -108,7 +110,7 @@ class CustomerJPADataAccessServiceTest extends AbstractTestContainers {
         Customer actual = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
 
         // When

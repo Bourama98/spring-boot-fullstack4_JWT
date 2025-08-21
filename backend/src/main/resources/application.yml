@@ -3,11 +3,13 @@ server:
   error:
     include-message: always
 cors:
-  allowed-origins: http://my-api2-env.eba-pd3scz3q.us-west-2.elasticbeanstalk.com
+
+  allowed-origins: "*, http://my-api2-env.eba-pd3scz3q.us-west-2.elasticbeanstalk.com"
   allowed-methods: "*"
   allowed-headers: "*"
   exposed-headers: "*"
   allow-credentials: true
+#  max-age: 3600
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/customer

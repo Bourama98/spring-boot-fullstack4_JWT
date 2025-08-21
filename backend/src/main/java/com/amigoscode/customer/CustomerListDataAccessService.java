@@ -7,25 +7,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository("list")
-public class CustomerListDataAccessService implements CustomerDao{
+public class CustomerListDataAccessService implements CustomerDao {
     private static List<Customer> customers;
+
     static {
         customers = new ArrayList<>();
         Customer alex = new Customer(
                 1,
                 "Alex",
                 "alex@gamil.com",
-                19,
+                "password", 19,
                 Gender.MALE);
         Customer mangara = new Customer(
                 2,
                 "MANGARA",
                 "mangara@gamil.com",
+                "password",
                 29,
                 Gender.MALE);
         customers.add(alex);
         customers.add(mangara);
     }
+
     @Override
     public List<Customer> selectAllCustomers() {
         return customers;
@@ -34,7 +37,7 @@ public class CustomerListDataAccessService implements CustomerDao{
     @Override
     public Optional<Customer> selectCustomerById(Integer id) {
         return customers.stream()
-                .filter(c->c.getId().equals(id))
+                .filter(c -> c.getId().equals(id))
                 .findFirst();
 
     }
@@ -47,25 +50,32 @@ public class CustomerListDataAccessService implements CustomerDao{
     @Override
     public boolean existsCustomerWithEmail(String email) {
         return customers.stream()
-                .anyMatch(c->c.getEmail().equals(email));
+                .anyMatch(c -> c.getEmail().equals(email));
     }
 
     @Override
     public void deleteCustomerById(Integer id) {
         customers.stream().filter(
-                c->c.getId().equals(id)).findFirst()
-                .ifPresent(customers::remove) ;
+                        c -> c.getId().equals(id)).findFirst()
+                .ifPresent(customers::remove);
 
     }
 
     @Override
     public boolean existsCustomerById(Integer id) {
 
-        return customers.stream().anyMatch(c->c.getId().equals(id));
+        return customers.stream().anyMatch(c -> c.getId().equals(id));
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-     customers.add(customer);
+        customers.add(customer);
+    }
+
+    @Override
+    public Optional<Customer> selectCustomerByEmail(String email) {
+        return customers.stream()
+                .filter(c -> c.getUsername().equals(email))
+                .findFirst();
     }
 }

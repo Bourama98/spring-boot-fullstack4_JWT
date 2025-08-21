@@ -33,7 +33,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer actual = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(actual);
         //WHEN
@@ -51,7 +51,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -65,11 +65,11 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
 
         //Then
 
-        assertThat(actual).isPresent().hasValueSatisfying(c ->{
-                    assertThat(c.getId()).isEqualTo(id);
-                    assertThat(c.getName()).isEqualTo(customer.getName());
-                    assertThat(c.getEmail()).isEqualTo(customer.getEmail());
-                    assertThat(c.getAge()).isEqualTo(customer.getAge());
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getName()).isEqualTo(customer.getName());
+            assertThat(c.getEmail()).isEqualTo(customer.getEmail());
+            assertThat(c.getAge()).isEqualTo(customer.getAge());
         });
         System.out.println(actual);
     }
@@ -93,7 +93,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         //When
         underTest.insertCustomer(customer);
@@ -107,7 +107,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
                 .orElseThrow();
         var actual = underTest.selectCustomerById(id);
         assertThat(actual).isPresent().hasValueSatisfying(
-                c ->{
+                c -> {
                     assertThat(c.getId()).isEqualTo(id);
                     assertThat(c.getName()).isEqualTo(customer.getName());
                     assertThat(c.getEmail()).isEqualTo(customer.getEmail());
@@ -125,7 +125,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         //When
@@ -138,9 +138,9 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     @Test
     void existsCustomerWithEmailReturnsFalseWhenDoesNotExists() {
         //Given
-String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        String email = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         // When
-boolean actual = underTest.existsCustomerWithEmail(email);
+        boolean actual = underTest.existsCustomerWithEmail(email);
         // Then
         assertThat(actual).isFalse();
     }
@@ -153,7 +153,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
 
         underTest.insertCustomer(customer);
@@ -168,8 +168,8 @@ boolean actual = underTest.existsCustomerWithEmail(email);
 
 
         //Then
-       var actual = underTest.selectCustomerById(id);
-       assertThat(actual).isNotPresent();
+        var actual = underTest.selectCustomerById(id);
+        assertThat(actual).isNotPresent();
     }
 
     @Test
@@ -180,7 +180,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -216,7 +216,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -234,11 +234,11 @@ boolean actual = underTest.existsCustomerWithEmail(email);
 
         //Then
         Optional<Customer> actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValueSatisfying(c->{
-            assertThat(c.getId()).isEqualTo(id);
-            assertThat(c.getName()).isEqualTo(newName);
-            assertThat(c.getEmail()).isEqualTo(customer.getEmail());
-            assertThat(c.getAge()).isEqualTo(customer.getAge());
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+                    assertThat(c.getId()).isEqualTo(id);
+                    assertThat(c.getName()).isEqualTo(newName);
+                    assertThat(c.getEmail()).isEqualTo(customer.getEmail());
+                    assertThat(c.getAge()).isEqualTo(customer.getAge());
                 }
         );
     }
@@ -251,7 +251,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -265,10 +265,10 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer update = new Customer();
         update.setId(id);
         update.setEmail(newEmail);
-         underTest.updateCustomer(update);
+        underTest.updateCustomer(update);
         // Then
         var actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValueSatisfying(c->{
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
             assertThat(c.getId()).isEqualTo(id);
             assertThat(c.getEmail()).isEqualTo(newEmail);
             assertThat(c.getName()).isEqualTo(customer.getName());
@@ -285,7 +285,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -303,7 +303,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
 
         // Then
         var actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValueSatisfying(c->{
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
             assertThat(c.getId()).isEqualTo(id);
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
@@ -319,7 +319,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -329,7 +329,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
                 .findFirst()
                 .orElseThrow();
         // When
-        var newName = faker.name().fullName()+"New";
+        var newName = faker.name().fullName() + "New";
         var newEmail = faker.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         int newAge = 180;
 
@@ -343,7 +343,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
 
         // Then
         var actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValueSatisfying(c->{
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
             assertThat(c.getId()).isEqualTo(id);
             assertThat(c.getName()).isEqualTo(newName);
             assertThat(c.getEmail()).isEqualTo(newEmail);
@@ -361,7 +361,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.insertCustomer(customer);
         int id = underTest.selectAllCustomers()
@@ -377,7 +377,7 @@ boolean actual = underTest.existsCustomerWithEmail(email);
 
         // Then
         var actual = underTest.selectCustomerById(id);
-        assertThat(actual).isPresent().hasValueSatisfying(c->{
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
             assertThat(c.getId()).isEqualTo(id);
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());

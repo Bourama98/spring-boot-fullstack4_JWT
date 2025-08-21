@@ -1,19 +1,23 @@
 package com.amigoscode.customer;
 
 import com.amigoscode.AbstractTestContainers;
+import com.amigoscode.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)// To disable the Embedded database and use our own test container.
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+// To disable the Embedded database and use our own test container.
+@Import({TestConfig.class})
 class CustomerRepositoryTest extends AbstractTestContainers {
     @Autowired
     private CustomerRepository underTest;
@@ -35,7 +39,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.save(customer);
         //When
@@ -45,6 +49,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
 
         assertThat(actual).isTrue();
     }
+
     @Test
     void existsCustomerByEmailFailsWhenEmailDoesNotExist() {
         //GIVEN
@@ -57,6 +62,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
 
         assertThat(actual).isFalse();
     }
+
     @Test
     void existsCustomerById() {
         //GIVEN
@@ -65,7 +71,7 @@ class CustomerRepositoryTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 name,
                 email,
-                20,
+                "password", 20,
                 Gender.MALE);
         underTest.save(customer);
         int id = underTest.findAll()
@@ -75,12 +81,13 @@ class CustomerRepositoryTest extends AbstractTestContainers {
                 .findFirst()
                 .orElseThrow();
         //When
-       var actual = underTest.existsCustomerById(id);
+        var actual = underTest.existsCustomerById(id);
 
         //Then
 
         assertThat(actual).isTrue();
     }
+
     @Test
     void existsCustomerByIdFailsWhenIdDoesNotExist() {
         //GIVEN

@@ -1,5 +1,6 @@
 package com.amigoscode.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -23,6 +25,10 @@ public class JWTUtil {
     }
 
     public String issuesToken(String subject, String... scopes) {
+        return issuesToken(subject, Map.of("scopes", scopes));
+    }
+
+    public String issuesToken(String subject, List<String> scopes) {
         return issuesToken(subject, Map.of("scopes", scopes));
     }
 
@@ -46,7 +52,31 @@ public class JWTUtil {
 
     }
 
+    public String getSubject(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    public Claims getClaims(String token) {
+        Claims claims = Jwts
+                .parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims;
+    }
+
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    }
+
+    public boolean isTokenValid(String jwt, String username) {
+        return getSubject(jwt).equals(username) && !isTokenExpired(jwt);
+    }
+
+    private boolean isTokenExpired(String jwt) {
+        Date today = Date.from(Instant.now());
+        return getClaims(jwt).getExpiration().before(today);
+
     }
 }

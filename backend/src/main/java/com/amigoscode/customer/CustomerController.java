@@ -22,12 +22,12 @@ public class CustomerController {
 
     // @RequestMapping(path="api/v1/cutomer", method = RequestMethod.GET)
     @GetMapping()
-    public List<Customer> getCustomers() {
+    public List<CustomerDTO> getCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GetMapping(path = "/{customerId}")
-    public Customer getCustomer(@PathVariable("customerId") Integer customerId) {
+    public CustomerDTO getCustomer(@PathVariable("customerId") Integer customerId) {
 
         return customerService.getCustomer(customerId);
 

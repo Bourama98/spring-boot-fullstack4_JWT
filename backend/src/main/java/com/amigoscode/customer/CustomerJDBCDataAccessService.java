@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Repository("jdbc")
 public class CustomerJDBCDataAccessService implements CustomerDao {
     private final JdbcTemplate jdbcTemplate;
@@ -19,7 +20,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age, gender
+                SELECT id, name, email, password, age, gender
                 FROM customer
                 """;
 
@@ -29,11 +30,11 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
 
     @Override
     public Optional<Customer> selectCustomerById(Integer id) {
-         var sql = """ 
-                 SELECT id, name, email, age, gender
-                  FROM customer
-                   WHERE id=?
-                 """;
+        var sql = """ 
+                SELECT id, name, email, password, age, gender
+                 FROM customer
+                  WHERE id=?
+                """;
 
         return jdbcTemplate.query(sql, customerRowMapper, id)
                 .stream()
@@ -43,13 +44,14 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer(name, email, age, gender)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO customer(name, email, password, age, gender)
+                VALUES (?, ?, ?, ?, ?)
                 """;
         int result = jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
+                customer.getPassword(),
                 customer.getAge(),
                 customer.getGender().name()
         );
@@ -81,37 +83,50 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
         var sql = """
                 SELECT COUNT(*) FROM customer WHERE id=?
                 """;
-        Integer count =  jdbcTemplate.queryForObject(sql, Integer.class, id);
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count != null && count > 0;
     }
 
     @Override
     public void updateCustomer(Customer customer) {
-     if(customer.getName() != null) {
-         String sql = "UPDATE customer SET name=? WHERE id=?";
-         int result = jdbcTemplate.update(
-                 sql,
-                 customer.getName(),
-                 customer.getId());
-         System.out.println("update customer name result = " + result);
-     }
-     if(customer.getEmail() != null) {
-         String sql = "UPDATE customer SET email=? WHERE id=?";
-         int result = jdbcTemplate.update(
-                 sql,
-                 customer.getEmail(),
-                 customer.getId()
-         );
-         System.out.println("update customer email result = " + result);
-     }
-     if(customer.getAge() != null) {
-         String sql = "UPDATE customer SET age=? WHERE id=?";
-         int result = jdbcTemplate.update(
-                 sql,
-                 customer.getAge(),
-                 customer.getId()
-         );
-         System.out.println("update customer age result = " + result);
-     }
+        if (customer.getName() != null) {
+            String sql = "UPDATE customer SET name=? WHERE id=?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    customer.getName(),
+                    customer.getId());
+            System.out.println("update customer name result = " + result);
+        }
+        if (customer.getEmail() != null) {
+            String sql = "UPDATE customer SET email=? WHERE id=?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    customer.getEmail(),
+                    customer.getId()
+            );
+            System.out.println("update customer email result = " + result);
+        }
+        if (customer.getAge() != null) {
+            String sql = "UPDATE customer SET age=? WHERE id=?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    customer.getAge(),
+                    customer.getId()
+            );
+            System.out.println("update customer age result = " + result);
+        }
+    }
+
+    @Override
+    public Optional<Customer> selectCustomerByEmail(String email) {
+        var sql = """ 
+                SELECT id, name, email, password, age, gender
+                 FROM customer
+                  WHERE email=?
+                """;
+
+        return jdbcTemplate.query(sql, customerRowMapper, email)
+                .stream()
+                .findFirst();
     }
 }
