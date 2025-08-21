@@ -217,7 +217,7 @@
                 <version>3.4.6</version>
                 <configuration>
                     <from>
-                        <image>eclipse-temurin:21</image>
+                        <image>eclipse-temurin:24</image>
                         <platforms>
                             <!--							<platform>-->
                             <!--								<architecture>arm64</architecture> 24.0.1+9-->
